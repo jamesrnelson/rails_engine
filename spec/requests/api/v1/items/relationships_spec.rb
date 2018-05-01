@@ -6,7 +6,7 @@ describe 'Items API relationships' do
   end
 
   it 'sends the associated merchant for a given item' do
-    get "api/v1/items/#{@item.id}/merchant"
+    get "/api/v1/items/#{@item.id}/merchant"
     expect(response).to be_success
 
     merchant = JSON.parse(response.body)

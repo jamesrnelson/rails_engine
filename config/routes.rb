@@ -8,6 +8,11 @@ Rails.application.routes.draw do
         get 'random', to: 'random#show'
       end
       resources :merchants, only: [:index, :show]
+
+      namespace :items do
+        get '/:id/merchant', to: 'merchants#show'
+      end
+
     end
   end
 end
