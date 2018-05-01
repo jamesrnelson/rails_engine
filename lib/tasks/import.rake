@@ -1,12 +1,12 @@
 require 'csv'
 desc "Import all files at once"
   task :import_all => [:import_customers,
-                     :import_invoice_items,
-                     :import_invoices,
-                     :import_items,
-                     :import_merchants,
-                     :import_transactions
-                    ]
+                       :import_merchants,
+                       :import_invoices,
+                       :import_items,
+                       :import_invoice_items,
+                       :import_transactions
+                      ]
 
   desc "Import customers from csv file"
     task :import_customers => [:environment] do
@@ -65,20 +65,29 @@ desc "Import all files at once"
           end
         end
 
-    # desc "Import invoice_items from csv file"
-    #   task :import_invoice_items => [:environment] do
-    #    file = "db/csv/invoice_items.csv"
-    #     CSV.foreach(file, headers: true, header_converters: :symbol) do |row|
-    #       invoice_item_hash = row.to_hash
-    #       InvoiceItem.create!(invoice_item_hash)
-    #     end
-    #   end
+    desc "Import invoice_items from csv file"
+      task :import_invoice_items => [:environment] do
+       file = "db/csv/invoice_items.csv"
+        CSV.foreach(file, headers: true, header_converters: :symbol) do |row|
+          invoice_item_hash = row.to_hash
+          invoice_item = InvoiceItem.where(id: invoice_item_hash[:id].to_i)
+          if invoice_item.count == 1
+            invoice_item.first.update_attributes(invoice_item_hash)
+          else
+            InvoiceItem.create!(invoice_item_hash)
+          end
+        end
+      end
 
-    #   desc "Import transactions from csv file"
-    #     task :import_transactions => [:environment] do
-    #      file = "db/csv/transactions.csv"
-    #       CSV.foreach(file, headers: true, header_converters: :symbol) do |row|
-    #         transaction_hash = row.to_hash
-    #         Transaction.create!(transaction_hash)
-    #       end
-    #     end
+      desc "Import transactions from csv file"
+        task :import_transactions => [:environment] do
+         file = "db/csv/transactions.csv"
+          CSV.foreach(file, headers: true, header_converters: :symbol) do |row|
+            transaction_hash = row.to_hash.except(:credit_card_expiration_date)
+            transaction = Transaction.where(id: transaction_hash[:id].to_i)
+            if transaction.count == 1
+            else
+              Transaction.create!(transaction_hash)
+            end
+          end
+        end
