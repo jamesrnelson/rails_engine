@@ -12,4 +12,13 @@ describe 'Items API relationships' do
     merchant = JSON.parse(response.body)
     expect(merchant['id']).to eq(@item.merchant_id)
   end
+
+  it 'sends the associated invoice items for a given item' do
+    get "/api/v1/items/#{@item.id}/invoice_items"
+
+    expect(response).to be_success
+
+    invoice_items = JSON.parse(response.body)
+    expect(invoice_items).to eq(@item.invoice_items)
+  end
 end
