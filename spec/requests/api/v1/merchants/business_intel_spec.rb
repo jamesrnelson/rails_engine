@@ -7,5 +7,8 @@ describe 'Merchants API' do
     get "/api/v1/merchants/#{merchant.id}/revenue"
 
     expect(response).to be_success
+
+    revenue = JSON.parse(response.body)
+    expect(revenue['revenue']).to eq(merchant.revenue)
   end
 end
