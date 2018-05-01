@@ -27,7 +27,7 @@ describe 'Invoices API' do
     expect(invoice['id']).to eq(id)
   end
 
-  it 'can find single object from parameters' do
+  it 'can find single object for given parameters' do
     customer = create(:customer)
     merchant = create(:merchant)
     status = 'delivered'
@@ -42,7 +42,7 @@ describe 'Invoices API' do
     expect(invoice['status']).to eq(status)
   end
 
-  it 'can find all objects for params' do
+  it 'can find all objects for given params' do
     customer = create(:customer)
     merchant = create(:merchant)
     not_included_invoices = create_list(:invoice, 3, customer_id: customer.id, merchant_id: merchant.id)
@@ -51,11 +51,24 @@ describe 'Invoices API' do
 
     get "/api/v1/invoices/find_all?status=#{status}"
     expect(response).to be_success
-    
+
     included_invoices = JSON.parse(response.body)
     expect(included_invoices.count).to eq(4)
     included_invoices.each do |invoice|
       expect(invoice['status']).to eq(status)
     end
+  end
+
+  it 'can return a random invoice' do
+    customer = create(:customer)
+    merchant = create(:merchant)
+    create_list(:invoice, 10, customer_id: customer.id, merchant_id: merchant.id)
+
+    get '/api/v1/invoices/random'
+    expect(response).to be_success
+
+    invoice = JSON.parse(response.body)
+    expect(invoice.class).to eq(Hash)
+    expect(invoice.keys).to eq(['id', 'customer_id', 'merchant_id', 'status', 'created_at', 'updated_at'])
   end
 end
