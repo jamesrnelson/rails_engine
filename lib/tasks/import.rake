@@ -51,15 +51,20 @@ desc "Import all files at once"
         end
       end
 
-    #   desc "Import items from csv file"
-    #     task :import_items => [:environment] do
-    #      file = "db/csv/items.csv"
-    #       CSV.foreach(file, headers: true, header_converters: :symbol) do |row|
-    #         item_hash = row.to_hash
-    #         Item.create!(item_hash)
-    #       end
-    #     end
-    #
+      desc "Import items from csv file"
+        task :import_items => [:environment] do
+         file = "db/csv/items.csv"
+          CSV.foreach(file, headers: true, header_converters: :symbol) do |row|
+            item_hash = row.to_hash
+            item = Item.where(id: item_hash[:id].to_i)
+            if item.count == 1
+              item.first.update_attributes(item_hash)
+            else
+              Item.create!(item_hash)
+            end
+          end
+        end
+
     # desc "Import invoice_items from csv file"
     #   task :import_invoice_items => [:environment] do
     #    file = "db/csv/invoice_items.csv"
