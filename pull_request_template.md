@@ -7,6 +7,6 @@
 ## Checklist:
 * Tested on RSPEC?
 * All test passing? 
-* Ran on Local Host? 
+* Passing Spec Harness?
 
 ## Mentions:
