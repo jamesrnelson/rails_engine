@@ -69,6 +69,6 @@ describe 'Invoices API' do
 
     invoice = JSON.parse(response.body)
     expect(invoice.class).to eq(Hash)
-    expect(invoice.keys).to eq(['id', 'customer_id', 'merchant_id', 'status', 'created_at', 'updated_at'])
+    expect(invoice.keys).to eq(['id', 'customer_id', 'merchant_id', 'status'])
   end
 end
