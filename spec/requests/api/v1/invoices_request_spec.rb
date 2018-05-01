@@ -26,4 +26,19 @@ describe 'Invoices API' do
     invoice = JSON.parse(response.body)
     expect(invoice['id']).to eq(id)
   end
+
+  it 'can find single object from parameters' do
+    customer = create(:customer)
+    merchant = create(:merchant)
+    status = 'delivered'
+    invoice1 = create(:invoice, customer_id: customer.id, merchant_id: merchant.id, status: status)
+    invoice2 = create(:invoice, customer_id: customer.id, merchant_id: merchant.id, status: 'shipped')
+
+    get "/api/v1/invoices/find?status=#{status}"
+
+    expect(response).to be_success
+
+    invoice = JSON.parse(response.body)
+    expect(invoice['status']).to eq(status)
+  end
 end
