@@ -41,4 +41,21 @@ describe 'Invoices API' do
     invoice = JSON.parse(response.body)
     expect(invoice['status']).to eq(status)
   end
+
+  it 'can find all objects for params' do
+    customer = create(:customer)
+    merchant = create(:merchant)
+    not_included_invoices = create_list(:invoice, 3, customer_id: customer.id, merchant_id: merchant.id)
+    status = 'purchased'
+    included_invoices = create_list(:invoice, 4, customer_id: customer.id, merchant_id: merchant.id, status: status)
+
+    get "/api/v1/invoices/find_all?status=#{status}"
+    expect(response).to be_success
+    
+    included_invoices = JSON.parse(response.body)
+    expect(included_invoices.count).to eq(4)
+    included_invoices.each do |invoice|
+      expect(invoice['status']).to eq(status)
+    end
+  end
 end
