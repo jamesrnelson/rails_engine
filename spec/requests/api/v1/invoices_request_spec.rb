@@ -13,4 +13,17 @@ describe 'Invoices API' do
     invoices = JSON.parse(response.body)
     expect(invoices.count).to eq(3)
   end
+
+  it 'can show an individual invoice' do
+    customer = create(:customer)
+    merchant = create(:merchant)
+    id = create(:invoice, customer_id: customer.id, merchant_id: merchant.id).id
+
+    get "/api/v1/invoices/#{id}"
+
+    expect(response).to be_success
+
+    invoice = JSON.parse(response.body)
+    expect(invoice['id']).to eq(id)
+  end
 end
