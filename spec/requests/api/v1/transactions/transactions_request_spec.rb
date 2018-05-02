@@ -23,18 +23,18 @@ describe 'Transactions API' do
     expect(transaction['id']).to eq(id)
   end
 
-  # it 'can find single object for params' do
-  #   create(:merchant, name: 'Coupes')
-  #   name = 'The Virginian'
-  #   create(:merchant, name: name)
-  #
-  #   get "/api/v1/merchants/find?name=#{name}"
-  #   expect(response).to be_success
-  #
-  #   merchant = JSON.parse(response.body)
-  #   expect(merchant['name']).to eq('The Virginian')
-  # end
-  #
+  it 'can find single object for params' do
+    create(:transaction, result: 'failed')
+    result = 'success'
+    create(:transaction, result: result)
+
+    get "/api/v1/transactions/find?result=#{result}"
+    expect(response).to be_success
+
+    transaction = JSON.parse(response.body)
+    expect(transaction['result']).to eq('success')
+  end
+
   # it 'can find all objects for params' do
   #   create_list(:merchant, 3, name: 'The Lawn')
   #   name = 'Rotunda'
