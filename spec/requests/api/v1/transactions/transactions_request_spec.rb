@@ -11,18 +11,18 @@ describe 'Transactions API' do
     transactions = JSON.parse(response.body)
     expect(transactions.count).to eq(3)
   end
-  #
-  # it 'can show an individual merchant' do
-  #   id = create(:merchant).id
-  #
-  #   get "/api/v1/merchants/#{id}"
-  #
-  #   expect(response).to be_success
-  #
-  #   merchant = JSON.parse(response.body)
-  #   expect(merchant['id']).to eq(id)
-  # end
-  #
+
+  it 'can show an individual transaction' do
+    id = create(:transaction).id
+
+    get "/api/v1/transactions/#{id}"
+
+    expect(response).to be_success
+
+    transaction = JSON.parse(response.body)
+    expect(transaction['id']).to eq(id)
+  end
+
   # it 'can find single object for params' do
   #   create(:merchant, name: 'Coupes')
   #   name = 'The Virginian'
