@@ -50,14 +50,14 @@ describe 'Transactions API' do
     end
   end
 
-  # it 'can return a random merchant' do
-  #   create_list(:merchant, 10)
-  #
-  #   get '/api/v1/merchants/random'
-  #   expect(response).to be_success
-  #
-  #   merchant = JSON.parse(response.body)
-  #   expect(merchant.class).to eq(Hash)
-  #   expect(merchant.keys). to eq(['id', 'name'])
-  # end
+  it 'can return a random transaction' do
+    create_list(:transaction, 10)
+
+    get '/api/v1/transactions/random'
+    expect(response).to be_success
+
+    transaction = JSON.parse(response.body)
+    expect(transaction.class).to eq(Hash)
+    expect(transaction.keys). to eq(['id', 'invoice_id', 'credit_card_number', 'result'])
+  end
 end
