@@ -5,7 +5,7 @@ class Merchant < ApplicationRecord
 
   def revenue
     invoice_items.
-    joins(invoice: :transactions).
+    joins(invoice: [:transactions]).
     merge(Transaction.success).
     sum('invoice_items.unit_price * quantity')
   end
