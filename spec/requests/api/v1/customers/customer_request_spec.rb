@@ -50,14 +50,14 @@ describe 'Customers API' do
     end
   end
 
-  # it 'can return a random merchant' do
-  #   create_list(:merchant, 10)
-  #
-  #   get '/api/v1/merchants/random'
-  #   expect(response).to be_success
-  #
-  #   merchant = JSON.parse(response.body)
-  #   expect(merchant.class).to eq(Hash)
-  #   expect(merchant.keys). to eq(['id', 'name'])
-  # end
+  it 'can return a random customer' do
+    create_list(:customer, 10)
+
+    get '/api/v1/customers/random'
+    expect(response).to be_success
+
+    customer = JSON.parse(response.body)
+    expect(customer.class).to eq(Hash)
+    expect(customer.keys). to eq(['id', 'first_name', 'last_name', 'created_at', 'updated_at'])
+  end
 end
