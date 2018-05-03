@@ -1,7 +1,10 @@
+require './lib/formatters/money_formatter'
+
 class ItemSerializer < ActiveModel::Serializer
+  include MoneyFormatter
   attributes :description, :id, :merchant_id, :name, :unit_price
 
   def unit_price
-    '%.2f' % (object.unit_price.to_f / 100)
+    format_money(object.unit_price)
   end
 end
