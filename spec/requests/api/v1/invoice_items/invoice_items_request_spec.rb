@@ -33,4 +33,19 @@ describe 'Invoice Items API' do
     invoice_item = JSON.parse(response.body)
     expect(invoice_item['quantity']).to eq(quantity)
   end
+
+  it 'can find all invoices items for given params' do
+    create_list(:invoice_item, 3, unit_price: 676767)
+    unit_price = 2011
+    create_list(:invoice_item, 5, unit_price: unit_price)
+
+    get "/api/v1/invoice_items/find_all?unit_price=#{unit_price}"
+    expect(response).to be_success
+
+    invoice_items = JSON.parse(response.body)
+    expect(invoice_items.count).to eq(5)
+    invoice_items.each do |invoice_item|
+      expect(invoice_item['unit_price']).to eq(unit_price)
+    end
+  end
 end

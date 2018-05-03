@@ -38,7 +38,7 @@ describe 'Merchants API' do
   it 'can find all objects for params' do
     create_list(:merchant, 3, name: 'The Lawn')
     name = 'Rotunda'
-    create_list(:merchant, 5 ,name: name)
+    create_list(:merchant, 5, name: name)
 
     get "/api/v1/merchants/find_all?name=#{name}"
     expect(response).to be_success
