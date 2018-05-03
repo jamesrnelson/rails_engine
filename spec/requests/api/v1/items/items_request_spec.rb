@@ -56,6 +56,6 @@ describe 'Items API' do
 
     item = JSON.parse(response.body)
     expect(item.class).to eq(Hash)
-    expect(item.keys).to eq(%w[id name description unit_price merchant_id])
+    expect(item.keys).to eq(%w[description id merchant_id name unit_price])
   end
 end
