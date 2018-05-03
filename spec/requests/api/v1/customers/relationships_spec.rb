@@ -25,5 +25,11 @@ describe 'Customers API transactions relationship' do
     expect(response).to be_success
 
     transactions = JSON.parse(response.body)
+
+    transactions.each do |transaction|
+      expect(transaction['customer_id']).to eq(customer.id)
+    end
+
+    expect(transactions).to eq(customer.transactions)
   end
 end
