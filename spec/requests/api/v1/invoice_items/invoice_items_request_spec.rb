@@ -39,13 +39,13 @@ describe 'Invoice Items API' do
     unit_price = 2011
     create_list(:invoice_item, 5, unit_price: unit_price)
 
-    get "/api/v1/invoice_items/find_all?unit_price=#{unit_price}"
+    get "/api/v1/invoice_items/find_all?unit_price=20.11"
     expect(response).to be_success
 
     invoice_items = JSON.parse(response.body)
     expect(invoice_items.count).to eq(5)
     invoice_items.each do |invoice_item|
-      expect(invoice_item['unit_price']).to eq(unit_price)
+      expect(invoice_item['unit_price']).to eq("20.11")
     end
   end
 

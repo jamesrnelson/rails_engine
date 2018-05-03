@@ -1,6 +1,5 @@
-class ApplicationController < ActionController::API
+require './lib/formatters/money_formatter'
 
-  def format_money(cents)
-    '%.2f' % (cents.to_f / 100)
-  end
+class ApplicationController < ActionController::API
+  include MoneyFormatter
 end
