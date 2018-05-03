@@ -32,3 +32,37 @@ describe 'Merchants API' do
     expect(revenue['revenue']).to eq(expected)
   end
 end
+
+describe 'Merchants API ranked merchants by total revenue' do
+  it 'returns a list of a variable number of merchants ranked by total revenue' do
+    merchant1 = create(:merchant)
+    merchant2 = create(:merchant)
+    merchant3 = create(:merchant)
+    merchant4 = create(:merchant)
+    item1 = create(:item, merchant_id: merchant1.id)
+    item2 = create(:item, merchant_id: merchant2.id)
+    item3 = create(:item, merchant_id: merchant3.id)
+    item4 = create(:item, merchant_id: merchant4.id)
+    invoice1 = create(:invoice, merchant_id: merchant1.id)
+    invoice2 = create(:invoice, merchant_id: merchant2.id)
+    invoice3 = create(:invoice, merchant_id: merchant3.id)
+    invoice4 = create(:invoice, merchant_id: merchant4.id)
+    create(:transaction, invoice: invoice1)
+    create(:transaction, invoice: invoice2)
+    create(:transaction, invoice: invoice3)
+    create(:transaction, invoice: invoice4)
+    create(:invoice_item, quantity: 10, unit_price: 10, item: item1, invoice: invoice1)
+    create(:invoice_item, quantity: 8, unit_price: 8, item: item2, invoice: invoice2)
+    create(:invoice_item, quantity: 2, unit_price: 2, item: item3, invoice: invoice3)
+    create(:invoice_item, quantity: 1, unit_price: 1, item: item4, invoice: invoice4)
+
+    quantity = 2
+    get "/api/v1/merchants/most_revenue?quantity=#{quantity}"
+
+    expect(response).to be_success
+
+    merchants = JSON.parse(response.body)
+    expect(merchants.count).to eq(quantity)
+    expect(merchants.first['id']).to eq(merchant1.id)
+  end
+end
