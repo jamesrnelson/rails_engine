@@ -28,7 +28,7 @@ describe Merchant do
     end
     it 'can return revenue on a given date' do
 
-      expect(@merchant.revenue(invoice_items: {created_at: @date})).to eq(20000)
+      expect(@merchant.revenue(created_at: @date)).to eq(20000)
     end
   end
 end
