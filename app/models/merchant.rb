@@ -12,10 +12,9 @@ class Merchant < ApplicationRecord
     .sum('invoice_items.unit_price * invoice_items.quantity')
   end
 
-  def total_revenue(limit = 5)
+  def self.ranked_revenue(limit = 5)
     select('merchants.*, sum(invoice_items.unit_price * invoice_items.quantity) AS total_revenue')
-    .joins(:transactions, :invoice_items)
-    .merge(Transaction.success)
+    .joins(:invoice_items)
     .order("total_revenue DESC")
     .group(:id)
     .limit(limit)
