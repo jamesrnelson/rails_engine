@@ -5,6 +5,7 @@ class Api::V1::Merchants::RevenueController < ApplicationController
   end
 
   def index
+    binding.pry
     render json: Merchant.total_revenue(search_params)
   end
 
