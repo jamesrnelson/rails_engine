@@ -58,6 +58,6 @@ describe 'Customers API' do
 
     customer = JSON.parse(response.body)
     expect(customer.class).to eq(Hash)
-    expect(customer.keys). to eq(['id', 'first_name', 'last_name', 'created_at', 'updated_at'])
+    expect(customer.keys). to eq(['id', 'first_name', 'last_name'])
   end
 end
