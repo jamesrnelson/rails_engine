@@ -11,18 +11,18 @@ describe 'Customers API' do
     customers = JSON.parse(response.body)
     expect(customers.count).to eq(3)
   end
-  #
-  # it 'can show an individual merchant' do
-  #   id = create(:merchant).id
-  #
-  #   get "/api/v1/merchants/#{id}"
-  #
-  #   expect(response).to be_success
-  #
-  #   merchant = JSON.parse(response.body)
-  #   expect(merchant['id']).to eq(id)
-  # end
-  #
+
+  it 'can show an individual customer' do
+    id = create(:customer).id
+
+    get "/api/v1/customers/#{id}"
+
+    expect(response).to be_success
+
+    customer = JSON.parse(response.body)
+    expect(customer['id']).to eq(id)
+  end
+
   # it 'can find single object for params' do
   #   create(:merchant, name: 'Coupes')
   #   name = 'The Virginian'
