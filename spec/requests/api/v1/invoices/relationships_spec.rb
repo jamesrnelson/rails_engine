@@ -18,4 +18,11 @@ describe 'Invoices API relationships' do
     invoice_items = JSON.parse(response.body)
     expect(invoice_items).to eq(@invoice.invoice_items)
   end
+  it 'returns a collection of associated items for a single invoice' do
+    get "/api/v1/invoices/#{@invoice.id}/items"
+    expect(response).to be_success
+
+    items = JSON.parse(response.body)
+    expect(items).to eq(@invoice.items)
+  end
 end
