@@ -36,6 +36,8 @@ Rails.application.routes.draw do
         get '/:id/item', to: 'items#show'
       end
 
+      resources :customers, only: [:index]
+
     end
   end
 end
