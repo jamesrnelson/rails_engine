@@ -25,11 +25,19 @@ describe 'Invoices API relationships' do
     items = JSON.parse(response.body)
     expect(items).to eq(@invoice.items)
   end
-  it ' returns the associated customer for an invoice' do
+  it 'returns the associated customer for an invoice' do
     get "/api/v1/invoices/#{@invoice.id}/customer"
     expect(response).to be_success
 
     customer = JSON.parse(response.body)
     expect(customer['id']).to eq(@invoice.customer.id)
   end
+  it 'returns the associated merchant for an invoice' do
+    get "/api/v1/invoices/#{@invoice.id}/merchant"
+    expect(response).to be_success
+
+    merchant = JSON.parse(response.body)
+    expect(merchant['id']).to eq(@invoice.merchant.id)
+  end
+
 end
