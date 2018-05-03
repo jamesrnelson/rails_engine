@@ -23,18 +23,18 @@ describe 'Customers API' do
     expect(customer['id']).to eq(id)
   end
 
-  # it 'can find single object for params' do
-  #   create(:merchant, name: 'Coupes')
-  #   name = 'The Virginian'
-  #   create(:merchant, name: name)
-  #
-  #   get "/api/v1/merchants/find?name=#{name}"
-  #   expect(response).to be_success
-  #
-  #   merchant = JSON.parse(response.body)
-  #   expect(merchant['name']).to eq('The Virginian')
-  # end
-  #
+  it 'can find single object for params' do
+    create(:customer)
+    first_name = 'Jimmy'
+    create(:customer, first_name: first_name)
+
+    get "/api/v1/customers/find?first_name=#{first_name}"
+    expect(response).to be_success
+
+    customer = JSON.parse(response.body)
+    expect(customer['first_name']).to eq(first_name)
+  end
+
   # it 'can find all objects for params' do
   #   create_list(:merchant, 3, name: 'The Lawn')
   #   name = 'Rotunda'
