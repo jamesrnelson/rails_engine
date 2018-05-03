@@ -14,10 +14,15 @@ describe Item do
       invoice_item_3 = create(:invoice_item, item: @item_2, quantity: 2)
       invoice_item_4 = create(:invoice_item, item: @item_2, quantity: 3)
       invoice_item_5 = create(:invoice_item, item: @item_2, quantity: 4)
+      create(:transaction, invoice_id: invoice_item_1.invoice_id)
+      create(:transaction, invoice_id: invoice_item_2.invoice_id)
+      create(:transaction, invoice_id: invoice_item_3.invoice_id)
+      create(:transaction, invoice_id: invoice_item_4.invoice_id)
+      create(:transaction, invoice_id: invoice_item_5.invoice_id)
     end
     it 'can return the top items by quantity' do
       expect(Item.top_quantity(1)).to eq([@item])
-      expect(Item.top_quantity(2).count).to eq(2)
+      expect(Item.top_quantity(2).length).to eq(2)
     end
   end
 end
