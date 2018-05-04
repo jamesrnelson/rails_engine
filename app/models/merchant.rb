@@ -20,10 +20,10 @@ class Merchant < ApplicationRecord
     .limit(limit)
   end
 
-  def self.all_revenue_by_date(date)
+  def self.all_revenue_by_date(filter = {})
     joins(:invoice_items)
-    .where(created_at: date)
-    .sum("invoice_items.unit_price * invoice_items.quantity")
+    .where(filter)
+    .sum('invoice_items.unit_price * invoice_items.quantity')
   end
 
   def self.most_items(x)
