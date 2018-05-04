@@ -1,20 +1,23 @@
 require 'rails_helper'
 
 describe 'Items API' do
-  it 'can return the top x item instances ranked by total number sold' do
+  before(:each) do
     @item = create(:item)
     @item_2 = create(:item)
+    @day = '2018-01-20T01:00:00.000Z'
+    invoice = create(:invoice, created_at: @day)
     invoice_item_1 = create(:invoice_item, item: @item, quantity: 10)
-    invoice_item_2 = create(:invoice_item, item: @item, quantity: 30)
+    @invoice_item_2 = create(:invoice_item, item: @item, quantity: 30, invoice: invoice)
     invoice_item_3 = create(:invoice_item, item: @item_2, quantity: 2)
     invoice_item_4 = create(:invoice_item, item: @item_2, quantity: 3)
     invoice_item_5 = create(:invoice_item, item: @item_2, quantity: 4)
     create(:transaction, invoice_id: invoice_item_1.invoice_id)
-    create(:transaction, invoice_id: invoice_item_2.invoice_id)
+    create(:transaction, invoice_id: @invoice_item_2.invoice_id)
     create(:transaction, invoice_id: invoice_item_3.invoice_id)
     create(:transaction, invoice_id: invoice_item_4.invoice_id)
     create(:transaction, invoice_id: invoice_item_5.invoice_id)
-
+  end
+  it 'can return the top x item instances ranked by total number sold' do
     get "/api/v1/items/most_items?quantity=1"
     expect(response).to be_success
 
@@ -23,9 +26,10 @@ describe 'Items API' do
     expect(items.length).to eq(1)
   end
   it 'returns the date with the most sales for a given item' do
-    item = create(:item)
-    get "/api/v1/items/#{item.id}/best_day"
-
+    get "/api/v1/items/#{@item.id}/best_day"
     expect(response).to be_success
+
+    date = JSON.parse(response.body)
+    expect(date['best_day']).to eq(@day)
   end
 end
