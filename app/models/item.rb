@@ -22,5 +22,13 @@ class Item < ApplicationRecord
       .order('revenue DESC')
       .first
       .created_at
-    end
+  end
+
+  def self.ranked_revenue(limit = 5)
+    select('items.*, sum(invoice_items.unit_price * invoice_items.quantity) AS total_revenue')
+    .joins(:invoice_items)
+    .order("total_revenue DESC")
+    .group(:id)
+    .limit(limit)
+  end
 end

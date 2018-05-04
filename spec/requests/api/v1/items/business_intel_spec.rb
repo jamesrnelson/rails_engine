@@ -32,6 +32,9 @@ describe 'Items API' do
     date = JSON.parse(response.body)
     expect(date['best_day']).to eq(@day)
   end
+end
+
+describe 'Item API ranked items by total revenue' do
   it 'returns a list of a variable number of items ranked by total revenue' do
     merchant1 = create(:merchant)
     merchant2 = create(:merchant)
