@@ -22,4 +22,10 @@ describe 'Items API' do
     expect(items.first['id']).to eq(@item.id)
     expect(items.length).to eq(1)
   end
+  it 'returns the date with the most sales for a given item' do
+    item = create(:item)
+    get "/api/v1/items/#{item.id}/best_day"
+
+    expect(response).to be_success
+  end
 end
