@@ -74,3 +74,27 @@ describe 'Merchants API ranked merchants by total revenue' do
     expect(merchants.first['id']).to eq(@merchant1.id)
   end
 end
+
+describe 'Merchants API gross revenue for all merchants for a specific date' do
+  it 'returns a single value of the gross revenue for that date' do
+    date = "2011-05-20"
+    merchant1 = create(:merchant)
+    merchant2 = create(:merchant)
+    item1 = create(:item, merchant_id: merchant1.id)
+    item2 = create(:item, merchant_id: merchant2.id)
+    invoice1 = create(:invoice, merchant_id: merchant1.id, created_at: date)
+    invoice2 = create(:invoice, merchant_id: merchant2.id, created_at: date)
+    create(:transaction, invoice: invoice1)
+    create(:transaction, invoice: invoice2)
+    create(:invoice_item, quantity: 10, unit_price: 10, item: item1, invoice: invoice1)
+    create(:invoice_item, quantity: 8, unit_price: 8, item: item2, invoice: invoice2)
+
+    get "/api/v1/merchants/revenue?date=#{date}"
+
+    expect(response).to be_success
+
+    gross_revenue = JSON.parse(response.body)
+    expect(gross_revenue.class).to eq(Hash)
+    expect(gross_revenue['total_revenue']).to eq('1.64')
+  end
+end
