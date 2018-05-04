@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         get '/:id/items', to: 'items#index'
         get '/:id/invoices', to: 'invoices#index'
         get '/:id/revenue', to: 'revenue#show'
+        get '/:id/favorite_customer', to: 'customer#show'
       end
       resources :merchants, only: [:index, :show]
 
@@ -65,7 +66,6 @@ Rails.application.routes.draw do
         get '/:id/favorite_merchant', to: 'merchants#show'
       end
       resources :customers, only: [:index, :show]
-
     end
   end
 end
