@@ -98,3 +98,19 @@ describe 'Merchants API gross revenue for all merchants for a specific date' do
     expect(gross_revenue['total_revenue']).to eq('1.64')
   end
 end
+
+describe 'Merchants API favorite customer' do
+  it 'returns a customer who has the most successful transactions for a given merchant' do
+    customer = create(:customer)
+    merchant = create(:merchant)
+    invoice = create(:invoice, customer: customer, merchant: merchant)
+    create(:transaction, invoice: invoice)
+
+    get "/api/v1/merchants/#{merchant.id}/favorite_customer"
+    expect(response).to be_success
+
+    fav_customer = JSON.parse(response.body)
+    expect(fav_customer['id']).to eq(merchant.favorite_customer.id)
+    expect(fav_customer['id']).to eq(customer.id)
+  end
+end

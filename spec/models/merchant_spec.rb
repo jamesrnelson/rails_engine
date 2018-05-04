@@ -9,6 +9,7 @@ describe Merchant do
     it { should have_many(:invoices) }
     it { should have_many(:invoice_items) }
     it { should have_many(:transactions) }
+    it { should have_many(:customers) }
   end
   context 'instance methods' do
     before(:each) do
